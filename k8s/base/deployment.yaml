@@ -1,26 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-test-deployment
-  labels:
-    group: example
+  name: node-test
 spec:
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
   replicas: 3
-  selector:
-    matchLabels:
-      app: node-test
   template:
-    metadata:
-      labels:
-        app: node-test
     spec:
       containers:
         - name: node-test
-          image: emanuelbodin/node-test:1
+          image: emanuelbodin/node-test:2
           imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: node-test
           livenessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: 8080
             periodSeconds: 10
             initialDelaySeconds: 5
