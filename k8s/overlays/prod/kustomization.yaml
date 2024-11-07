@@ -9,4 +9,4 @@ configMapGenerator:
       - variables.env
     name: node-test
 
-namespace: dev
+namespace: node-test-prod
